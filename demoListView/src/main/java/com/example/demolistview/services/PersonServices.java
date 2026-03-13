@@ -32,6 +32,25 @@ public class PersonServices {
 
         repo.appendNewLine(nameNoComan+","+emailNoComan+","+edadNoComan);
     }
+    public  void updatePerson (int index, String name, String email, String edad) throws IOException {
+      List<String> lines=getAllCleanLines();
+      if (index==-1){
+          throw new IllegalArgumentException("el indice recibido no es valido");
+      }
+      lines.set(index,name+","+email+","+edad);
+      repo.appenAllLines(lines);
+    }
+    private List<String> getAllCleanLines() throws IOException {
+        List<String> lines=repo.readAllLines();
+        List<String> cleanLines=new ArrayList<>();
+        for (String line : lines){
+            if (line!=null && !line.isBlank()){
+                cleanLines.add(line);
+            }
+        }
+        return cleanLines;
+    }
+
     private void validatePerson(String nombre, String email, String edad){
         if (nombre.isBlank() || nombre.isEmpty() || nombre.length()<3 ) {
             throw new IllegalArgumentException("El nombre no cumple con los estandares");
